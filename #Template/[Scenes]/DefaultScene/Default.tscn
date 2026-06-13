@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://bm1086mivcf7v"]
+
+[ext_resource type="PackedScene" uid="uid://brdmblcywuklx" path="res://#Template/Player.tscn" id="1_5eet3"]
+[ext_resource type="Resource" uid="uid://bflra16kjrdhi" path="res://#Template/[Scenes]/DefaultScene/Default.tres" id="2_dmxrr"]
+[ext_resource type="PackedScene" uid="uid://be4vgpeo0nv84" path="res://#Template/CameraRoot.tscn" id="3_dj80y"]
+[ext_resource type="PackedScene" uid="uid://cl2ga7ac0dg54" path="res://#Template/Gem.tscn" id="4_dj80y"]
+[ext_resource type="PackedScene" uid="uid://b5hb8j8w782ki" path="res://#Template/Trigger.tscn" id="6_0os2y"]
+[ext_resource type="Script" uid="uid://dljvwhsb4mc0x" path="res://#Template/[Scripts]/Trigger/FogColorChanger.gd" id="8_ys6ci"]
+[ext_resource type="PackedScene" uid="uid://wx3awwdt8xdy" path="res://#Template/[Resources]/GAMEUI.tscn" id="9_cr5py"]
+[ext_resource type="Script" uid="uid://cu3xuawfji3m2" path="res://#Template/[Scripts]/Trigger/EventTrigger.gd" id="9_nb4qh"]
+[ext_resource type="Texture2D" uid="uid://bokq00qv7ojs5" path="res://#Template/[Resources]/PerfactCrownNoLight.png" id="10_8ar0p"]
+[ext_resource type="PackedScene" uid="uid://cmson0cneufxo" path="res://#Template/Ground.tscn" id="11_jhod5"]
+[ext_resource type="Script" uid="uid://bhmnocupnsd06" path="res://#Template/[Scripts]/Animator/LocalPosAnimator.gd" id="11_ymsgx"]
+
+[sub_resource type="Environment" id="Environment_ys6ci"]
+fog_enabled = true
+
+[sub_resource type="Animation" id="Animation_wkp8b"]
+length = 0.001
+
+[sub_resource type="Animation" id="3"]
+length = 130.0
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cm0pq"]
+_data = {
+&"RESET": SubResource("Animation_wkp8b"),
+&"level": SubResource("3")
+}
+
+[node name="LevelHolder" type="Node3D" unique_id=542804875]
+
+[node name="BasicOBJ_Group" type="Node3D" parent="." unique_id=1533079692]
+
+[node name="Player" parent="BasicOBJ_Group" unique_id=2020142567 instance=ExtResource("1_5eet3")]
+animation = NodePath("../AnimationPlayer")
+level_data = ExtResource("2_dmxrr")
+
+[node name="CameraRoot" parent="BasicOBJ_Group" unique_id=1925825702 instance=ExtResource("3_dj80y")]
+
+[node name="Camera3D" parent="BasicOBJ_Group/CameraRoot/Rotator/Scale" parent_id_path=PackedInt32Array(1925825702, 1568144045) index="0" unique_id=1985620912]
+environment = SubResource("Environment_ys6ci")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BasicOBJ_Group" unique_id=560431425]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_cm0pq")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="BasicOBJ_Group/AnimationPlayer" unique_id=1995291670]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="BasicOBJ_Group" unique_id=1791213843]
+transform = Transform3D(-0.86602354, -0.43301606, 0.25000072, 0, 0.49999818, 0.86602646, -0.5000033, 0.7499993, -0.4330102, 0, -0.33333334, 0)
+shadow_enabled = true
+
+[node name="gameui" parent="BasicOBJ_Group" unique_id=75582180 instance=ExtResource("9_cr5py")]
+crown_no_light = ExtResource("10_8ar0p")
+
+[node name="Scene_Group" type="Node3D" parent="." unique_id=1042175662]
+
+[node name="Scene_001" type="Node3D" parent="Scene_Group" unique_id=514366687]
+
+[node name="Ground" parent="Scene_Group/Scene_001" unique_id=755968428 instance=ExtResource("11_jhod5")]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, -1, 0)
+
+[node name="Trigger" parent="." unique_id=608483111 instance=ExtResource("6_0os2y")]
+transform = Transform3D(4.2346315, 0, 1.8258529, 0, 2.5, 0, -4.527601, 0, 1.7077066, 3.4334273, -0.5, 4.045533)
+
+[node name="Jump" type="Node3D" parent="Trigger" unique_id=1582838911]
+script = ExtResource("8_ys6ci")
+target_fog_color = Color(0, 0, 0, 1)
+
+[node name="Node3D" type="Node3D" parent="Trigger" unique_id=627851164 node_paths=PackedStringArray("target_nodes")]
+script = ExtResource("9_nb4qh")
+target_nodes = [NodePath("../../Diamond/MeshInstance3D")]
+target_methods = Array[String](["Trigger"])
+invoke_on_awake = true
+debug_mode = true
+
+[node name="Diamond" parent="." unique_id=149611988 instance=ExtResource("4_dj80y")]
+transform = Transform3D(2, 0, 5.9604645e-08, 5.9604645e-08, 2, 5.9604645e-08, 5.9604645e-08, 0, 2, 1.1694752, 0.15720963, 1.7570919)
+fake = true
+
+[node name="MeshInstance3D" parent="Diamond" index="1" unique_id=996011055]
+script = ExtResource("11_ymsgx")
+end_offset = Vector3(0, 1.612018, 0)
+
+[editable path="BasicOBJ_Group/CameraRoot"]
+[editable path="Diamond"]
