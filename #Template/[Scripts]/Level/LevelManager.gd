@@ -76,7 +76,11 @@ static func remove_revive_listener(callable: Callable) -> void:
 static func emit_revive() -> void:
 	var listeners_snapshot = _revive_listeners.duplicate()
 	for listener in listeners_snapshot:
-		listener.call()
+		if listener.is_valid():
+			listener.call()
+		else:
+			# 移除无效的 listener
+			_revive_listeners.erase(listener)
 
 static func reset_revive_listeners() -> void:
 	_revive_listeners.clear()
@@ -254,12 +258,16 @@ static func GameOverNormal(complete: bool) -> void:
 	if GameState == GameStatus.Died or GameState == GameStatus.Completed or GameState == GameStatus.Moving:
 		if Player.instance and Player.instance.has_method("get_block_count"):
 			pass
-		# 触发UI显示，由gameui.gd监听is_end
+		# 触发UI显示，由gameui.gd监听on_game_end信号
 		is_end = true
+		if Player.instance:
+			Player.instance.on_game_end.emit()
 
 static func GameOverRevive() -> void:
 	if GameState == GameStatus.Died or GameState == GameStatus.Moving:
 		is_end = true
+		if Player.instance:
+			Player.instance.on_game_end.emit()
 
 ## ============================================================
 ## 辅助方法

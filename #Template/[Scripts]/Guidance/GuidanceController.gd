@@ -21,10 +21,11 @@ func _ready() -> void:
 	Instance = self
 	_id = 0
 	_box_scene = load("res://#Template/[Resources]/GuidanceBox.tscn")
+	set_process(false)  ## 默认关闭，用信号驱动
 	if create_boxes:
 		_holder = Node3D.new()
 		_holder.name = "GuidanceBoxHolder"
-		get_tree().current_scene.add_child(_holder)
+		get_tree().current_scene.add_child.call_deferred(_holder)
 	if box_holder:
 		for child in box_holder.get_children():
 			if child is Node3D:
@@ -33,20 +34,36 @@ func _ready() -> void:
 		_set_color(b, guidance_color)
 	if create_lines and not _boxes.is_empty():
 		_generate_lines()
+	# 用信号驱动替代轮询
+	if Player.instance:
+		_connect_player_signals()
+	else:
+		# Player 还没就绪，等一帧
+		await get_tree().process_frame
+		if Player.instance:
+			_connect_player_signals()
 
-func _start() -> void:
+func _connect_player_signals() -> void:
 	_player = Player.instance
 	if not _player:
 		return
 	if create_boxes:
-		var box := _spawn_box(
-			_player.global_position - Vector3(0, 0.45, 0),
-			_player.firstDirection.y
-		)
-		box.name = "OriginalGuidanceBox"
-		var gb := _find_guidance_box(box)
-		if gb:
-			gb.can_be_triggered = false
+		_player.on_player_start.connect(_on_player_start)
+
+func _on_player_start() -> void:
+	if not create_boxes:
+		return
+	if not _holder or not _holder.is_inside_tree():
+		return
+	var box := _spawn_box(
+		_player.global_position - Vector3(0, 0.45, 0),
+		_player.firstDirection.y
+	)
+	box.name = "OriginalGuidanceBox"
+	var gb := _find_guidance_box(box)
+	if gb:
+		gb.can_be_triggered = false
+	_player.onturn.connect(_on_player_turn)
 
 func _find_guidance_box(node: Node) -> GuidanceBox:
 	for child in node.get_children():
@@ -56,15 +73,6 @@ func _find_guidance_box(node: Node) -> GuidanceBox:
 		if found:
 			return found
 	return null
-
-func _process(_delta: float) -> void:
-	if not _player:
-		_start()
-		return
-	if not _started:
-		if create_boxes and LevelManager.GameState == LevelManager.GameStatus.Playing:
-			_player.onturn.connect(_on_player_turn)
-			_started = true
 
 func _on_player_turn() -> void:
 	if create_boxes and LevelManager.GameState == LevelManager.GameStatus.Playing:
@@ -82,9 +90,9 @@ func _on_player_turn() -> void:
 
 func _spawn_box(pos: Vector3, rot_y: float) -> Node3D:
 	var box := _box_scene.instantiate() as Node3D
+	_holder.add_child(box)
 	box.global_position = pos
 	box.rotation_degrees = Vector3(0, rot_y, 0)
-	_holder.add_child(box)
 	return box
 
 func _set_color(box: Node3D, color: Color) -> void:
