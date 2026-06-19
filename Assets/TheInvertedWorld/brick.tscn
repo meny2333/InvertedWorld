@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://62cix5qrc07j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7x70m"]
+albedo_color = Color(0.32420284, 0.32420272, 0.32420266, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ou1bg"]
+material = SubResource("StandardMaterial3D_7x70m")
+size = Vector3(1, 0.1, 0.5)
+
+[node name="Brick" type="Node3D" unique_id=808163687]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1463926423]
+transform = Transform3D(4, 0, 0, 0, 0.5, 0, 0, 0, 2, 0, 0, 0.43135273)
+mesh = SubResource("BoxMesh_ou1bg")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=1921191609]
+transform = Transform3D(4, 0, 0, 0, 0.5, 0, 0, 0, 2, -0.66874677, 0.09135896, -0.13654959)
+mesh = SubResource("BoxMesh_ou1bg")
