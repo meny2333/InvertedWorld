@@ -24,10 +24,6 @@ config/icon="res://icon.png"
 
 buses/default_bus_layout="uid://bndjl13wvh5ef"
 
-[autoload]
-
-MCPRuntimeProbe="*res://addons/godot_mcp/runtime/mcp_runtime_probe.gd"
-
 [debug]
 
 gdscript/warnings/enable=false
