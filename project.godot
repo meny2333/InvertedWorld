@@ -30,6 +30,7 @@ MCPRuntimeProbe="*res://addons/godot_mcp/runtime/mcp_runtime_probe.gd"
 
 [debug]
 
+gdscript/warnings/enable=false
 shapes/collision/shape_color=Color(0, 0.6, 0.69803923, 1)
 
 [display]
