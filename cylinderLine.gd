@@ -13,7 +13,7 @@ const CYLINDER_BEND_SHADER: = preload("res://cylinder_bend.gdshader")
                 disengage()
 
 
-@export var mainline: CharacterBody3D
+@export var mainline: Player
 @export var camera: Camera3D
 @export var cylinder_tail_parent: Node3D
 

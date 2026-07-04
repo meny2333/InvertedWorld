@@ -34,6 +34,7 @@
 [ext_resource type="Script" uid="uid://ct52ojgblm2io" path="res://#Template/[Scripts]/Trigger/Teleport.gd" id="31"]
 [ext_resource type="Script" uid="uid://drnbjbioqg67t" path="res://#Template/[Scripts]/Trigger/Speed.gd" id="32"]
 [ext_resource type="Shader" uid="uid://bii0dsm4b5w6q" path="res://glitch.gdshader" id="33"]
+[ext_resource type="Script" uid="uid://c4bcirjbmgqn2" path="res://CylinderEnableTrigger.gd" id="33_66q21"]
 [ext_resource type="PackedScene" uid="uid://car71stqmy3mh" path="res://#Template/Obstacle.tscn" id="34"]
 [ext_resource type="PackedScene" uid="uid://brdmblcywuklx" path="res://#Template/Player.tscn" id="35"]
 [ext_resource type="Resource" uid="uid://db5xs5vqnqisx" path="res://[Scenes]/DefaultScene/Inv.tres" id="36"]
@@ -4750,7 +4751,7 @@ tracks/11/keys = {
 }
 tracks/12/type = "audio"
 tracks/12/imported = false
-tracks/12/enabled = true
+tracks/12/enabled = false
 tracks/12/path = NodePath("AnimationPlayer2/AudioStreamPlayer")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
@@ -5966,7 +5967,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_3k2hx")
 
 [node name="Ice Flake_001" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="25" unique_id=2003743837]
-transform = Transform3D(0.97187966, 0.23547728, 1.0293041e-08, 0, -4.371138e-08, 1, 0.23547728, -0.97187966, -4.2482217e-08, 254.13414, -12.730435, -236.68376)
+transform = Transform3D(0.97187966, 0.23547731, 1.0293042e-08, 0, -4.371138e-08, 1, 0.23547731, -0.97187966, -4.2482217e-08, 254.13414, -12.730435, -236.68376)
 
 [node name="icecube_1" parent="Scene1/Ice Flake_001" index="0" unique_id=1081280037]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6002,7 +6003,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_juxjc")
 
 [node name="Ice Flake_005" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="28" unique_id=526857901]
-transform = Transform3D(1, -1.2355946e-06, -5.4009562e-14, 0, -4.3711385e-08, 1, -1.2355947e-06, -0.99999994, -4.371139e-08, 252.32695, -12.772392, -223.4225)
+transform = Transform3D(1, -1.2355947e-06, -5.4009565e-14, 0, -4.3711385e-08, 1, -1.2355948e-06, -0.99999994, -4.371139e-08, 252.32695, -12.772392, -223.4225)
 
 [node name="icecube_4" parent="Scene1/Ice Flake_005" index="0" unique_id=2118194910]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6014,7 +6015,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_41cdy")
 
 [node name="Ice Flake_008" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="29" unique_id=1323509259]
-transform = Transform3D(0.99896866, -0.045403644, -1.9846564e-09, 0, -4.3711385e-08, 1, -0.045403644, -0.99896866, -4.3666308e-08, 247.77005, -12.769314, -222.89784)
+transform = Transform3D(0.99896866, -0.04540365, -1.9846567e-09, 0, -4.3711385e-08, 1, -0.04540365, -0.99896866, -4.3666308e-08, 247.77005, -12.769314, -222.89784)
 
 [node name="icecube_5" parent="Scene1/Ice Flake_008" index="0" unique_id=682588673]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6026,7 +6027,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_4edcd")
 
 [node name="Ice Flake_009" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="30" unique_id=1397343464]
-transform = Transform3D(0.99999183, 0.003063256, 1.3389964e-10, 0, -4.371122e-08, 0.99999964, 0.003063257, -0.9999915, -4.3711168e-08, 296.73273, -12.7317915, -262.09384)
+transform = Transform3D(0.9999918, 0.0030632562, 1.3389966e-10, 0, -4.3711218e-08, 0.99999964, 0.0030632573, -0.9999914, -4.3711168e-08, 296.73273, -12.7317915, -262.09384)
 
 [node name="icecube_6" parent="Scene1/Ice Flake_009" index="0" unique_id=1396383489]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6086,7 +6087,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_c1kdp")
 
 [node name="Ice Flake_019" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="35" unique_id=673480283]
-transform = Transform3D(0.9999966, -0.00025142377, -1.0990119e-11, 0, -4.3711243e-08, 1, -0.00025142377, -0.9999966, -4.3711385e-08, 283.45013, -12.702373, -250.18596)
+transform = Transform3D(0.99999654, -0.0002514238, -1.099012e-11, 0, -4.371124e-08, 1, -0.0002514238, -0.99999654, -4.3711385e-08, 283.45013, -12.702373, -250.18596)
 
 [node name="icecube_11" parent="Scene1/Ice Flake_019" index="0" unique_id=898495515]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6110,7 +6111,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_5r5py")
 
 [node name="Ice Flake_023" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="37" unique_id=807175811]
-transform = Transform3D(0.999326, -0.036708783, -1.6045919e-09, 0, -4.371139e-08, 1, -0.036708783, -0.999326, -4.3681926e-08, 298.4392, -12.607855, -266.35495)
+transform = Transform3D(0.999326, -0.036708787, -1.604592e-09, 0, -4.371139e-08, 1, -0.036708787, -0.999326, -4.3681926e-08, 298.4392, -12.607855, -266.35495)
 
 [node name="icecube_13" parent="Scene1/Ice Flake_023" index="0" unique_id=561382729]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6122,7 +6123,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_byl3o")
 
 [node name="Ice Flake_024" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="38" unique_id=1785409674]
-transform = Transform3D(0.9961486, 0.087681144, 3.8326644e-09, 0, -4.371139e-08, 1, 0.087681144, -0.9961486, -4.354304e-08, 291.0317, -12.776751, -261.97968)
+transform = Transform3D(0.9961486, 0.08768114, 3.8326644e-09, 0, -4.371139e-08, 1, 0.08768114, -0.9961486, -4.354304e-08, 291.0317, -12.776751, -261.97968)
 
 [node name="icecube_14" parent="Scene1/Ice Flake_024" index="0" unique_id=1099251209]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6134,7 +6135,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_q51el")
 
 [node name="Ice Flake_025" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="39" unique_id=1907851439]
-transform = Transform3D(1, 5.101529e-06, 2.2299492e-13, 0, -4.371137e-08, 0.9999996, 5.1015313e-06, -0.9999996, -4.371137e-08, 294.15753, -12.712306, -262.5381)
+transform = Transform3D(1, 5.1015295e-06, 2.2299494e-13, 0, -4.371137e-08, 0.9999996, 5.1015318e-06, -0.9999996, -4.371137e-08, 294.15753, -12.712306, -262.5381)
 
 [node name="icecube_15" parent="Scene1/Ice Flake_025" index="0" unique_id=1257495146]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6146,7 +6147,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_ochh1")
 
 [node name="Ice Flake_026" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="40" unique_id=1437303060]
-transform = Transform3D(0.9979806, -0.0634676, -2.7742662e-09, 0, -4.371124e-08, 0.9999999, -0.06346761, -0.9979805, -4.3623256e-08, 299.88058, -12.704636, -262.81052)
+transform = Transform3D(0.99798054, -0.06346761, -2.7742664e-09, 0, -4.3711236e-08, 0.9999999, -0.063467614, -0.9979804, -4.3623256e-08, 299.88058, -12.704636, -262.81052)
 
 [node name="icecube_16" parent="Scene1/Ice Flake_026" index="0" unique_id=646873261]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6158,7 +6159,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_25juw")
 
 [node name="Ice Flake_027" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="41" unique_id=2027424934]
-transform = Transform3D(9.299785e-05, 0.9999986, 0.0011959733, 4.5319684e-06, -0.0011959735, 0.9999988, 0.9999993, -9.299226e-05, -4.643189e-06, 246.62195, -12.710015, -220.33951)
+transform = Transform3D(0.00012506536, 0.99999857, 0.0011959731, 4.499462e-06, -0.0011959735, 0.9999988, 0.9999992, -0.00012505977, -4.6490345e-06, 246.62195, -12.710015, -220.33951)
 
 [node name="icecube_17" parent="Scene1/Ice Flake_027" index="0" unique_id=375307082]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6218,7 +6219,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_apsf0")
 
 [node name="Ice Flake_032" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="46" unique_id=1447372131]
-transform = Transform3D(-0.11154263, 0.99375886, 4.3438614e-08, 0, -4.3711353e-08, 1, 0.99375886, 0.11154263, 4.875687e-09, 288.22534, -12.739224, -259.23715)
+transform = Transform3D(-0.11154275, 0.99375886, 4.3438614e-08, 0, -4.3711353e-08, 1, 0.99375886, 0.11154275, 4.8756923e-09, 288.22534, -12.739224, -259.23715)
 
 [node name="icecube_22" parent="Scene1/Ice Flake_032" index="0" unique_id=1068986508]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6230,7 +6231,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_xcat8")
 
 [node name="Ice Flake_033" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="47" unique_id=2069528441]
-transform = Transform3D(0.99999136, 0.004157935, 1.817491e-10, 0, -4.371139e-08, 1, 0.004157935, -0.99999136, -4.371101e-08, 288.70056, -12.80032, -257.16428)
+transform = Transform3D(0.99999136, 0.0041579353, 1.8174913e-10, 0, -4.371139e-08, 1, 0.0041579353, -0.99999136, -4.371101e-08, 288.70056, -12.80032, -257.16428)
 
 [node name="icecube_23" parent="Scene1/Ice Flake_033" index="0" unique_id=9309523]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6254,7 +6255,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_acc2s")
 
 [node name="Ice Flake_035" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="49" unique_id=1379782139]
-transform = Transform3D(0.9709713, -0.23919587, -1.0455585e-08, 0, -4.3711385e-08, 1, -0.23919588, -0.9709712, -4.2442505e-08, 256.22293, -12.798344, -256.0943)
+transform = Transform3D(0.9709713, -0.23919585, -1.0455584e-08, 0, -4.3711385e-08, 1, -0.23919587, -0.9709712, -4.2442505e-08, 256.22293, -12.798344, -256.0943)
 
 [node name="icecube_25" parent="Scene1/Ice Flake_035" index="0" unique_id=797537418]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6290,7 +6291,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_snfi7")
 
 [node name="Ice Flake_038" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="52" unique_id=311155873]
-transform = Transform3D(1, -1.2373498e-05, -5.4086276e-13, 0, -4.3711374e-08, 0.99999964, -1.2373503e-05, -0.99999964, -4.3711374e-08, 250.03665, -12.786311, -224.33556)
+transform = Transform3D(1, -1.2373499e-05, -5.408628e-13, 0, -4.3711374e-08, 0.99999964, -1.23735035e-05, -0.99999964, -4.3711374e-08, 250.03665, -12.786311, -224.33556)
 
 [node name="icecube_28" parent="Scene1/Ice Flake_038" index="0" unique_id=1127955352]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6314,7 +6315,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_mpd0s")
 
 [node name="Ice Flake_040" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="54" unique_id=1159520659]
-transform = Transform3D(0.09189232, -0.99576896, -4.3526445e-08, 0, -4.371139e-08, 1, -0.99576896, -0.09189232, -4.0167407e-09, 264.44308, -12.675753, -265.44678)
+transform = Transform3D(0.0918922, -0.99576896, -4.3526445e-08, 0, -4.371139e-08, 1, -0.99576896, -0.0918922, -4.0167354e-09, 264.44308, -12.675753, -265.44678)
 
 [node name="icecube_30" parent="Scene1/Ice Flake_040" index="0" unique_id=1535643524]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6326,7 +6327,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_emfsj")
 
 [node name="Ice Flake_041" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="55" unique_id=608808977]
-transform = Transform3D(0.9999683, -0.007954457, -3.477004e-10, 0, -4.3711385e-08, 1, -0.007954457, -0.9999683, -4.3710006e-08, 289.1137, -12.647247, -255.58037)
+transform = Transform3D(0.9999683, -0.007954458, -3.4770042e-10, 0, -4.3711385e-08, 1, -0.007954458, -0.9999683, -4.3710006e-08, 289.1137, -12.647247, -255.58037)
 
 [node name="icecube_31" parent="Scene1/Ice Flake_041" index="0" unique_id=1155116630]
 mesh = SubResource("ArrayMesh_w50vn")
@@ -6561,7 +6562,7 @@ visible = false
 visible = false
 
 [node name="River Water" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="142" unique_id=981780063]
-transform = Transform3D(-1.4849243, -1.4849243, -1.2516975e-07, 0, -1.2516975e-07, 1.05, -0.74246216, 0.74246204, 6.2584874e-08, 229.33116, -12.785912, -292.7402)
+transform = Transform3D(-1.4849244, -0.7424621, -9.895538e-08, -4.9477688e-08, -1.9791075e-07, 1.6601957, -0.4695742, 0.9391485, 6.2584874e-08, 229.33116, -12.785912, -292.7402)
 visible = false
 
 [node name="River Water(LD)" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="143" unique_id=626132252]
@@ -7362,7 +7363,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_gthgi")
 
 [node name="Stone Path_013" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="227" unique_id=27807257]
-transform = Transform3D(0.39610723, -0.05566926, -6.083451e-09, 0, -1.7484556e-08, 1, -0.055669256, -0.39610726, -4.328599e-08, 313.4995, 0, -280.50085)
+transform = Transform3D(0.39610723, -0.055669267, -6.0834515e-09, 0, -1.7484556e-08, 1, -0.05566926, -0.39610726, -4.328599e-08, 313.4995, 0, -280.50085)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Scene1/Stone Path_013" index="0" unique_id=641476035]
 collision_layer = 2
@@ -7380,7 +7381,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_qghrf")
 
 [node name="Stone Path_015" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="229" unique_id=455204313]
-transform = Transform3D(0.21196766, 0.33921927, 3.7069363e-08, 0, -1.7484556e-08, 1, 0.33921927, -0.21196766, -2.3163501e-08, 316.4994, 0, -283.50073)
+transform = Transform3D(0.2119677, 0.33921924, 3.706936e-08, 0, -1.7484556e-08, 1, 0.33921924, -0.2119677, -2.3163507e-08, 316.4994, 0, -283.50073)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Scene1/Stone Path_015" index="0" unique_id=1061390939]
 collision_layer = 2
@@ -7389,7 +7390,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_t0l26")
 
 [node name="Stone Path_016" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="230" unique_id=548812267]
-transform = Transform3D(0.38974813, -0.08998045, -9.832925e-09, 0, -1.748456e-08, 1, -0.08998045, -0.38974813, -4.259107e-08, 316.4994, 0, -286.5006)
+transform = Transform3D(0.38974813, -0.08998045, -9.832924e-09, 0, -1.748456e-08, 1, -0.08998045, -0.38974813, -4.259107e-08, 316.4994, 0, -286.5006)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Scene1/Stone Path_016" index="0" unique_id=1250974855]
 collision_layer = 2
@@ -7398,7 +7399,7 @@ collision_layer = 2
 shape = SubResource("ConvexPolygonShape3D_wu35m")
 
 [node name="Stone Path_017" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="231" unique_id=631219880]
-transform = Transform3D(0.38450468, -0.11025494, -1.2048492e-08, 0, -1.7484556e-08, 1, -0.11025494, -0.38450468, -4.2018083e-08, 319.49927, 0, -286.5006)
+transform = Transform3D(0.38450468, -0.11025496, -1.2048493e-08, 0, -1.7484556e-08, 1, -0.11025496, -0.38450468, -4.2018083e-08, 319.49927, 0, -286.5006)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Scene1/Stone Path_017" index="0" unique_id=1666744333]
 collision_layer = 2
@@ -13115,10 +13116,11 @@ transform = Transform3D(1, 0, 0, 0, 0.0003451109, 0.99999994, 0, -0.99999994, 0.
 
 [node name="Alien" parent="Scene3/Sphere Center/FARSIDE OBJ" parent_id_path=PackedInt32Array(1455077660) index="0" unique_id=20067602]
 transform = Transform3D(0.90000004, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -3.90625e-05, 0, -4.005432e-07)
+visible = false
 material_override = SubResource("StandardMaterial3D_3kbtd")
 
 [node name="Octahedron" parent="Scene3/Sphere Center/FARSIDE OBJ" parent_id_path=PackedInt32Array(1455077660) index="1" unique_id=319010287]
-transform = Transform3D(2.8896162e-07, -0.92050475, 0.39073136, 1, 3.1391647e-07, 0, -1.2265701e-07, 0.39073136, 0.92050475, 0, 0, 0)
+transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 [node name="L" parent="Scene3/Sphere Center/FARSIDE OBJ/Octahedron" index="0" unique_id=1736805442]
 transform = Transform3D(1, 0, 0, 0, 0.9999999, 2.910383e-11, 0, -2.910383e-11, 0.9999999, 0, 0, 0)
@@ -13127,10 +13129,10 @@ transform = Transform3D(1, 0, 0, 0, 0.9999999, 2.910383e-11, 0, -2.910383e-11, 0
 transform = Transform3D(1, 0, 0, 0, 0.9999999, 2.910383e-11, 0, -2.910383e-11, 0.9999999, 0, 0, 0)
 
 [node name="Output Shape" parent="Scene3/Sphere Center/FARSIDE OBJ" parent_id_path=PackedInt32Array(1455077660) index="2" unique_id=496807434]
-transform = Transform3D(0.9999999, -3.0199158e-07, 0, 3.0199158e-07, 0.9999999, 0, 0, 0, 0.9999999, -3.90625e-05, 0, -4.005432e-07)
+transform = Transform3D(-0.7071064, -0.70710707, 0, 0.70710707, -0.7071064, 0, 0, 0, 0.9999999, -3.90625e-05, 0, -4.005432e-07)
 
 [node name="PowerShell" parent="Scene3/Sphere Center/FARSIDE OBJ/Output Shape" index="0" unique_id=2069283758]
-transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, -20, 30, 30)
+transform = Transform3D(0.51989704, -0.6007421, 0.60730225, -0.84994006, -0.43493682, 0.2973749, 0.08549248, -0.6707748, -0.73671716, 0, 0, 0)
 
 [node name="Spider Effect" parent="Scene3" index="49" unique_id=1642391098]
 visible = false
@@ -15054,19 +15056,21 @@ shadow_enabled = true
 directional_shadow_mode = 0
 
 [node name="Trigger" parent="." index="33" unique_id=154120494 instance=ExtResource("30")]
-transform = Transform3D(1.4142135, 0, 6.3469906, 0, 5, 0, -1.4142135, 0, 6.3469906, 40.159687, -29, -342.46194)
+transform = Transform3D(1.4142135, 0, 6.3469906, 0, 5, 0, -1.4142135, 0, 6.3469906, 40.334595, -29, -342.63684)
+
+[node name="tp" type="Node3D" parent="Trigger" index="2" unique_id=87559444]
 script = ExtResource("31")
-type = 0
-target = NodePath("")
-teleport_position = Vector3(0, 0, 0)
-turn = false
-target_direction = 0
+type = 1
+teleport_position = Vector3(0, 935, 0)
+
+[node name="cylinderEnable" type="Node3D" parent="Trigger" index="3" unique_id=93032153]
+script = ExtResource("33_66q21")
+cylinder_line = NodePath("../../cylinderLine")
 
 [node name="Trigger3" parent="." index="34" unique_id=2134998249 instance=ExtResource("30")]
 transform = Transform3D(1.9999998, 0, -1.5258789e-05, 0, 5.0000005, 0, -1.1920929e-07, 0, 200, 471.947, 972.301, -741.059)
 script = ExtResource("31")
 type = 0
-target = NodePath("")
 teleport_position = Vector3(0, 0, 0)
 turn = false
 target_direction = 0
