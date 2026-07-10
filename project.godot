@@ -23,7 +23,6 @@ config/icon="res://icon.png"
 [audio]
 
 buses/default_bus_layout="uid://bndjl13wvh5ef"
-
 [debug]
 
 gdscript/warnings/enable=false
