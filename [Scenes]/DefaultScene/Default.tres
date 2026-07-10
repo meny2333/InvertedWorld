@@ -27,6 +27,7 @@ metadata/_custom_type_script = "uid://cpejwvo4pns1"
 
 [resource]
 script = ExtResource("6_c57ag")
+saveID = 1
 levelTitleKey = "Default"
 levelAudioClip = ExtResource("5_1icaj")
 colors = Array[ExtResource("2_vpgwp")]([SubResource("Resource_c57ag"), SubResource("Resource_tno1u")])
