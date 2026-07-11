@@ -23,11 +23,11 @@ const CYLINDER_BEND_SHADER := preload("./cylinder_bend.gdshader")
 @export var cylinder_radius: float = 14.5
 @export var cylinder_center_offset: Vector3 = Vector3.ZERO
 @export var cylinder_axis_direction: Vector3 = Vector3(1, 0, -1)
+@export var reference_direction: Vector3 = Vector3.ZERO
 
 @export_group("Transform Offsets")
 @export var position_offset: Vector3 = Vector3.ZERO
 @export var rotation_offset: Vector3 = Vector3.ZERO
-@export var initial_angle_degrees: float = 0.0
 
 @export_group("Update Settings")
 @export var update_per_frame: bool = true
@@ -63,7 +63,6 @@ var last_mainline_position: Vector3
 var current_angle: float = 0.0
 var current_axial_progress: float = 0.0
 var target_transform: Transform3D
-var reference_direction: Vector3
 var perpendicular_direction: Vector3
 var current_cylinder_line: MeshInstance3D = null
 var line_start_position: Vector3
@@ -228,9 +227,11 @@ func _exit_tree():
 	if _signals_connected:
 		_disconnect_signals()
 
-func _connect_signals_except_onturn():
+func _connect_mainline_signals():
 	if not mainline or _signals_connected:
 		return
+	if mainline.has_signal("onturn") and not mainline.onturn.is_connected(_on_mainline_turn):
+		mainline.onturn.connect(_on_mainline_turn)
 	if mainline.has_signal("new_line1") and not mainline.new_line1.is_connected(_on_mainline_new_line):
 		mainline.new_line1.connect(_on_mainline_new_line)
 	if mainline.has_signal("on_sky") and not mainline.on_sky.is_connected(_on_mainline_on_sky):
@@ -257,36 +258,20 @@ func engage():
 		return
 	engage_flag = true
 	
-	# 立即连接其他信号（不包括onturn）
+	# 立即连接所有玩家信号，确保启用后的第一次转弯不会丢失。
 	if not _signals_connected:
-		_connect_signals_except_onturn()
+		_connect_mainline_signals()
 	
-	current_angle = deg_to_rad(initial_angle_degrees)
+	current_angle = 0.0
+	_initialize_spiral_direction()
 	initialize_mapping()
 	if map_trails and has_last_mapped_position:
 		is_drawing = true
 		create_new_cylinder_line()
-	
-	# 延迟1秒后正式启用onturn
-	# 使用call_deferred延迟执行校准和onturn连接
-	_deferred_calibrate()
-
-func _deferred_calibrate() -> void :
-	if not mainline or not is_instance_valid(mainline):
-		return
-	get_tree().create_timer(1.0).timeout.connect(_on_calibrate_timer)
-
-func _on_calibrate_timer() -> void :
-	if not engage_flag or not mainline or not is_instance_valid(mainline):
-		return
-	_calibrate_spiral_direction()
-	if mainline.has_signal("onturn") and not mainline.onturn.is_connected(_on_mainline_turn):
-		mainline.onturn.connect(_on_mainline_turn)
 
 func _enter_tree():
 	if mainline and engage_flag and not _signals_connected:
-		_connect_signals_except_onturn()
-		_deferred_calibrate()
+		_connect_mainline_signals()
 
 func _calibrate_spiral_direction():
 	if not mainline:
@@ -299,9 +284,32 @@ func _calibrate_spiral_direction():
 		expected_tangent = -expected_tangent
 	
 	var actual_forward := -mainline.transform.basis.z
+	var player_direction := mainline.get("current_direction")
+	if player_direction is Vector3:
+		var direction_degrees: Vector3 = player_direction
+		actual_forward = Basis.from_euler(Vector3(
+			deg_to_rad(direction_degrees.x),
+			deg_to_rad(direction_degrees.y),
+			deg_to_rad(direction_degrees.z)
+		)) * Vector3.FORWARD
 	
 	if actual_forward.dot(expected_tangent) < 0:
-		spiral_direction = -spiral_direction
+		_set_spiral_direction(-spiral_direction)
+
+func _initialize_spiral_direction() -> void:
+	_set_spiral_direction(1.0)
+	var player_direction_index := mainline.get("_currentDirection")
+	if player_direction_index is int:
+		if player_direction_index == 1:
+			_set_spiral_direction(-1.0)
+		return
+	_calibrate_spiral_direction()
+
+func _flip_spiral_direction() -> void:
+	spiral_direction = -spiral_direction
+
+func _set_spiral_direction(direction: float) -> void:
+	spiral_direction = direction
 
 func disengage():
 	if not engage_flag:
@@ -351,10 +359,12 @@ func setup_cylinder():
 	cylinder_axis_point = reference_position + cylinder_center_offset
 	cylinder_axis = cylinder_axis_direction.normalized()
 	
-	reference_direction = Vector3.UP.cross(cylinder_axis)
-	if reference_direction.length_squared() < 0.000001:
-		reference_direction = Vector3.RIGHT.cross(cylinder_axis)
-	reference_direction = reference_direction.normalized()
+	var configured_reference := reference_direction - cylinder_axis * reference_direction.dot(cylinder_axis)
+	if configured_reference.length_squared() < 0.000001:
+		configured_reference = Vector3.UP.cross(cylinder_axis)
+	if configured_reference.length_squared() < 0.000001:
+		configured_reference = Vector3.RIGHT.cross(cylinder_axis)
+	reference_direction = configured_reference.normalized()
 	
 	perpendicular_direction = cylinder_axis.cross(reference_direction).normalized()
 
@@ -395,7 +405,7 @@ func _on_mainline_turn():
 	_turn_prev_tangent = last_segment_direction if has_last_segment_direction else current_tangent_direction
 	_has_turn_prev_tangent = true
 	_turn_pending = true
-	spiral_direction = -spiral_direction
+	_flip_spiral_direction()
 
 func _on_mainline_new_line():
 	if not engage_flag:
@@ -788,7 +798,6 @@ func get_mapping_info() -> Dictionary:
 		"spiral_angular_speed": spiral_angular_speed,
 		"position_offset": position_offset,
 		"rotation_offset": rotation_offset,
-		"initial_angle_degrees": initial_angle_degrees,
 		"distance_to_axis": target_transform.origin.distance_to(
 			cylinder_axis_point + cylinder_axis * current_axial_progress
 		) if engage_flag else 0.0,
