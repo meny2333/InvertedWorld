@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqsb32oior2xf"
-path.s3tc="res://.godot/imported/RotateNoteBlue.png-7e14e04c39791708a161178628be0a4d.s3tc.ctex"
+uid="uid://dwnp3ardn0qmt"
+path.s3tc="res://.godot/imported/RotateNoteRed.png-52e6e3a67fdac216eedee9d001f2e302.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://RotateNoteBlue.png"
-dest_files=["res://.godot/imported/RotateNoteBlue.png-7e14e04c39791708a161178628be0a4d.s3tc.ctex"]
+source_file="res://[Scenes]/DefaultScene/RotateNoteRed.png"
+dest_files=["res://.godot/imported/RotateNoteRed.png-52e6e3a67fdac216eedee9d001f2e302.s3tc.ctex"]
 
 [params]
 
