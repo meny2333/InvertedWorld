@@ -1,5 +1,5 @@
 @tool
-extends Node3D
+extends Node
 
 @export var colors: Array[SingleColor] = []
 @export var duration: float = 2.0
@@ -20,14 +20,14 @@ func _apply_color(sc: SingleColor, _body: Node3D) -> void:
 		return
 
 	# 确定目标网格
-	var mesh = target_mesh
+	var mesh: MeshInstance3D = target_mesh
 	if not mesh:
 		mesh = _body.find_child("MeshInstance3D", true, false) as MeshInstance3D
 	if not mesh:
 		return
 
 	# 复制材质，确保不修改原始磁盘资源
-	var mat = sc.material
+	var mat: Material = sc.material
 	if not mat.resource_local_to_scene:
 		mat = mat.duplicate()
 		mat.resource_local_to_scene = true
@@ -36,7 +36,7 @@ func _apply_color(sc: SingleColor, _body: Node3D) -> void:
 	mesh.material_override = mat
 
 	# 补间动画
-	var tween := create_tween()
+	var tween: Tween = create_tween()
 	tween.set_ease(ease_type)
 	tween.set_trans(trans_type)
 	tween.tween_property(mat, "albedo_color", sc.color, duration)

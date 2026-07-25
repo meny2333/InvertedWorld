@@ -17,13 +17,16 @@ var _displayed: bool = false
 
 func _ready() -> void:
 	_player = Player.instance
+	if not _player:
+		push_error("GuidanceBox.gd: Player.instance 为空，无法初始化引导盒")
+		return
 	_root = $".."
 	_sprite = $"../Sprite3D"
 	_trigger_effect = load("res://#Template/[Resources]/Triggered.tscn")
 
 	# Unity: if (Distance > appearDistance) Disappear(false);
 	# Unity 的 Distance 返回 sqrMagnitude，直接对比 appearDistance（不做平方）
-	var dist_sq := global_position.distance_squared_to(_player.global_position)
+	var dist_sq: float = global_position.distance_squared_to(_player.global_position)
 	if dist_sq > appear_distance:
 		_disappear(false)
 
@@ -32,7 +35,10 @@ func _process(_delta: float) -> void:
 		return
 
 	# 合并两次距离计算为一次（性能优化：distance_squared_to 是关键热点）
-	var dist_sq := global_position.distance_squared_to(_player.global_position)
+	if not _player:
+		push_error("GuidanceBox.gd: Player.instance 为空，无法计算距离")
+		return
+	var dist_sq: float = global_position.distance_squared_to(_player.global_position)
 
 	# Unity Update(): if (!triggered && Distance <= appearDistance && !Renderer.enabled) Appear();
 	if not _displayed and dist_sq <= appear_distance:
@@ -40,6 +46,9 @@ func _process(_delta: float) -> void:
 
 	# 触发检测：仅在点击时才检查近距离
 	if LevelManager.Clicked and can_be_triggered and dist_sq <= trigger_distance * trigger_distance:
+		if not _player:
+			push_error("GuidanceBox.gd: Player.instance 为空，无法触发点击")
+			return
 		if LevelManager.GameState == LevelManager.GameStatus.Playing and not _player.disallow_input:
 			_trigger()
 
@@ -47,7 +56,7 @@ func _trigger() -> void:
 	triggered = true
 	set_process(false)
 	_disappear(true)
-	var effect := _trigger_effect.instantiate() as Node3D
+	var effect: Node3D = _trigger_effect.instantiate() as Node3D
 	get_tree().current_scene.add_child(effect)
 	effect.global_position = global_position
 	await get_tree().create_timer(1.0).timeout
