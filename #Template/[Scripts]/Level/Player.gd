@@ -19,48 +19,48 @@ signal new_line1
 signal on_sky
 signal onturn
 
-@onready var y = $".".position.y
-var speed:float
-@export var firstDirection := Vector3(0, 0, 0)
-@export var secondDirection := Vector3(0, 90, 0)
-var _currentDirection := 0
+@onready var y: float = $".".position.y
+var speed: float
+@export var firstDirection: Vector3 = Vector3(0, 0, 0)
+@export var secondDirection: Vector3 = Vector3(0, 90, 0)
+var _currentDirection: int = 0
 
 var current_direction: Vector3:
 	get:
 		return secondDirection if _currentDirection == 1 else firstDirection
 
-@export var fly := false
-@export var noclip := false
-@export var animation:NodePath
-@export var is_turn := false
-@export var is_end := false
+@export var fly: bool = false
+@export var noclip: bool = false
+@export var animation: NodePath
+@export var is_turn: bool = false
+@export var is_end: bool = false
 @export var tail_holder: Node3D
 
-@onready var mesh:Mesh = $MeshInstance3D.mesh
-@onready var past_translation := position
-@onready var material:StandardMaterial3D = $MeshInstance3D.get_surface_override_material(0)
-@onready var tree := get_tree()
-@onready var animation_node:AnimationPlayer = get_node(animation) if animation else null
+@onready var mesh: Mesh = $MeshInstance3D.mesh
+@onready var past_translation: Vector3 = position
+@onready var material: StandardMaterial3D = $MeshInstance3D.get_surface_override_material(0)
+@onready var tree: SceneTree = get_tree()
+@onready var animation_node: AnimationPlayer = get_node(animation) if animation else null
 @onready var land_effect: GPUParticles3D = $LandEffect
 
 @export var level_data: LevelData
 
 @export var deathParticle: PackedScene
 
-var timeout := 0.1
-var is_live := true
-var line:MeshInstance3D
-var past_is_on_floor := false
-var past_is_on_floor_effect := false
+var timeout: float = 0.1
+var is_live: bool = true
+var line: MeshInstance3D
+var past_is_on_floor: bool = false
+var past_is_on_floor_effect: bool = false
 
-var is_start := false
-var tailScale = 1
+var is_start: bool = false
+var tailScale: int = 1
 
-var start_transform = transform
-var loading := false
-var debug := false
-@export var allowTurn := true
-@export var disallow_input := false
+var start_transform: Transform3D = transform
+var loading: bool = false
+var debug: bool = false
+@export var allowTurn: bool = true
+@export var disallow_input: bool = false
 
 ## 音画延迟补偿（秒），用户可配置。与 AudioServer.get_output_latency() 独立并存。
 var music_delay: float = 0.0
@@ -69,10 +69,10 @@ var music_delay: float = 0.0
 var music_volume: float = 1.0
 
 ## 标记首次启动延迟是否已应用（复活时不重置，对齐 Unity gameStarts）
-var _delay_applied := false
+var _delay_applied: bool = false
 
 ## ========== Tail 对象池 ==========
-const TAIL_POOL_SIZE := 256
+const TAIL_POOL_SIZE: int = 256
 var _tail_pool: ObjectPool = ObjectPool.new(TAIL_POOL_SIZE)
 
 func _ready() -> void:
@@ -85,27 +85,30 @@ func _ready() -> void:
 			LevelManager.is_end = false
 			reload()
 		LevelManager.load_checkpoint_to_main_line(self)
-		speed = level_data.speed
+		if not level_data:
+			push_error("Player.gd: level_data 未设置，无法应用速度")
+		else:
+			speed = level_data.speed
 		rotation_degrees = current_direction
 		emit_signal("on_game_awake")
 	if is_inside_tree():
 		if level_data:
-				level_data.apply_to(self, get_world_3d().space)
+			level_data.apply_to(self, get_world_3d().space)
 
-	var debug_overlay_scene := load("res://#Template/[Resources]/DebugOverlay.tscn") as PackedScene
+	var debug_overlay_scene: PackedScene = load("res://#Template/[Resources]/DebugOverlay.tscn") as PackedScene
 	if debug_overlay_scene:
-		var overlay := debug_overlay_scene.instantiate()
+		var overlay: DebugOverlay = debug_overlay_scene.instantiate()
 		add_child(overlay)
 
 	# 实例化 StartPage（启动界面）
-	var start_page_scene := load("res://#Template/[Resources]/StartPage.tscn") as PackedScene
+	var start_page_scene: PackedScene = load("res://#Template/[Resources]/StartPage.tscn") as PackedScene
 	if start_page_scene and not Engine.is_editor_hint():
 		# 加载持久化的音画延迟/音量设置（对齐 Unity PlayerPrefs）
-		var saved := SetLatency.load_settings()
+		var saved: Dictionary = SetLatency.load_settings()
 		music_delay = saved.delay
 		music_volume = saved.volume
 
-		var page := start_page_scene.instantiate()
+		var page: StartPage = start_page_scene.instantiate()
 		add_child(page)
 		page.set_setting("latency", music_delay)
 		page.set_setting("volume", music_volume)
@@ -130,7 +133,7 @@ func _process(_delta: float) -> void:
 	if Engine.is_editor_hint() or (not is_live and LevelManager.GameState != LevelManager.GameStatus.Moving):
 		return
 
-	var is_on_floor_now := is_on_floor() or fly
+	var is_on_floor_now: bool = is_on_floor() or fly
 	if is_on_floor_now and not past_is_on_floor_effect:
 		_play_land_effect()
 		emit_signal("on_touch_ground")
@@ -142,8 +145,8 @@ func _process(_delta: float) -> void:
 	if is_on_floor_now:
 		if past_is_on_floor != is_on_floor_now:
 			new_line()
-		var offset = position - past_translation
-		var distance = offset.length()
+		var offset: Vector3 = position - past_translation
+		var distance: float = offset.length()
 
 		line.position = past_translation + offset / 2
 		line.scale = Vector3(1, 1, distance + tailScale)
@@ -157,10 +160,10 @@ func _input(event: InputEvent) -> void:
 	if not Engine.is_editor_hint():
 		# StartPage 显示时，鼠标点击由 StartPage 的信号处理
 		if not is_start and event is InputEventMouseButton:
-			var page = get_node_or_null("StartPage")
+			var page: CanvasLayer = get_node_or_null("StartPage") as CanvasLayer
 			if page and page.visible:
 				return
-		var can_turn := LevelManager.GameState == LevelManager.GameStatus.Playing or (LevelManager.GameState == LevelManager.GameStatus.Waiting and not is_start)
+		var can_turn: bool = LevelManager.GameState == LevelManager.GameStatus.Playing or (LevelManager.GameState == LevelManager.GameStatus.Waiting and not is_start)
 		if event.is_action_pressed("turn") and is_live and allowTurn and can_turn and not disallow_input:
 			turn()
 
@@ -190,10 +193,9 @@ func reload() -> void:
 func _clear_tail() -> void:
 	line = null
 	past_translation = position
-	if not tail_holder:
-		tail_holder = tree.current_scene.get_node_or_null("PlayerTailHolder") as Node3D
+	tail_holder = _get_or_create_player_tail_holder()
 	for child in tail_holder.get_children():
-		var tail := child as MeshInstance3D
+		var tail: MeshInstance3D = child as MeshInstance3D
 		if tail:
 			_return_to_pool(tail)
 		else:
@@ -209,23 +211,24 @@ func _return_to_pool(tail: MeshInstance3D) -> void:
 		tail.queue_free()
 
 func _get_from_pool() -> MeshInstance3D:
-	var tail := _tail_pool.pop() as MeshInstance3D
+	var tail: MeshInstance3D = _tail_pool.pop() as MeshInstance3D
 	if not tail:
 		return MeshInstance3D.new()
 	return tail
 
 func _get_or_create_player_tail_holder() -> Node3D:
-	var root := tree.current_scene
+	var root: Node = tree.current_scene
 
-	var tail_holder := root.get_node_or_null("PlayerTailHolder") as Node3D
-	if not tail_holder:
-		tail_holder = Node3D.new()
-		tail_holder.name = "PlayerTailHolder"
-		root.add_child(tail_holder)
+	var holder: Node3D = root.get_node_or_null("PlayerTailHolder") as Node3D
+	if not holder:
+		holder = Node3D.new()
+		holder.name = "PlayerTailHolder"
+		root.add_child(holder)
 
-	return tail_holder
+	tail_holder = holder
+	return holder
 
-func new_line():
+func new_line() -> void:
 	line = _get_from_pool()
 	line.mesh = mesh
 	line.position = position
@@ -233,7 +236,7 @@ func new_line():
 	line.set_surface_override_material(0, material)
 	line.visible = true
 
-	var tail_holder := _get_or_create_player_tail_holder()
+	var tail_holder: Node3D = _get_or_create_player_tail_holder()
 	tail_holder.add_child(line)
 
 	past_translation = position
@@ -244,7 +247,7 @@ func _play_land_effect() -> void:
 		land_effect.restart()
 		land_effect.emitting = true
 
-func turn():
+func turn() -> void:
 	if not (is_on_floor() or fly):
 		return
 
@@ -268,7 +271,7 @@ func turn():
 	else:
 		# —— 首次转向（游戏启动）——
 		is_start = true
-		var page := get_node_or_null("StartPage")
+		var page: CanvasLayer = get_node_or_null("StartPage") as CanvasLayer
 		if page and page is CanvasLayer:
 			page.hide_animated()
 		emit_signal("on_player_start")
@@ -331,14 +334,16 @@ func _play_music(start_time: float) -> void:
 func _start_game_after_delay() -> void:
 	LevelManager.GameState = LevelManager.GameStatus.Playing
 	velocity = to_global(Vector3(0, 0, 1) * speed) - position
+
 	past_translation = position
 	new_line()
 
 func _on_Area_body_entered(_body: Node) -> void:
 	if not is_live:
 		return
+
 	die()
-func die(spawn_particles: bool = true, death_state: LevelManager.GameStatus = LevelManager.GameStatus.Died):
+func die(spawn_particles: bool = true, death_state: LevelManager.GameStatus = LevelManager.GameStatus.Died) -> void:
 	if !noclip:
 		is_live = false
 		LevelManager.GameState = death_state
@@ -354,22 +359,30 @@ func die(spawn_particles: bool = true, death_state: LevelManager.GameStatus = Le
 		if not spawn_particles or not deathParticle:
 			return
 
-		var forward_dir := velocity.normalized() if velocity.length() > 0.01 else Vector3.FORWARD
-		var backward_dir := -forward_dir
+		var forward_dir: Vector3 = velocity.normalized() if velocity.length() > 0.01 else Vector3.FORWARD
+		var backward_dir: Vector3 = -forward_dir
 
 		for i in 8:
 			var deathParticle_instance: RigidBody3D = deathParticle.instantiate()
 			deathParticle_instance.add_to_group("death_particles")
-			get_parent().add_child(deathParticle_instance)
-			deathParticle_instance.get_node("MeshInstance3D").mesh = mesh
-			deathParticle_instance.get_node("MeshInstance3D").material_override = material
+			var parent: Node = get_parent()
+			if not parent:
+				push_error("Player.gd: 不在场景树中，无法生成死亡粒子")
+				return
+			parent.add_child(deathParticle_instance)
+			var death_mesh: MeshInstance3D = deathParticle_instance.get_node_or_null("MeshInstance3D") as MeshInstance3D
+			if death_mesh:
+				death_mesh.mesh = mesh
+				death_mesh.material_override = material
+			else:
+				push_error("Player.gd: 死亡粒子实例缺少 MeshInstance3D 子节点")
 			deathParticle_instance.global_position = global_position
 			deathParticle_instance.linear_damp = 0.5
-			var random_rot := _random_rotation()
+			var random_rot: Vector3 = _random_rotation()
 			deathParticle_instance.rotation = random_rot
 
-			var direction := forward_dir if i < 4 else backward_dir
-			var impulse := direction * speed + _rand_dir() * 0.5
+			var direction: Vector3 = forward_dir if i < 4 else backward_dir
+			var impulse: Vector3 = direction * speed + _rand_dir() * 0.5
 			deathParticle_instance.apply_central_impulse(impulse)
 			deathParticle_instance.apply_torque(_rand_dir())
 
