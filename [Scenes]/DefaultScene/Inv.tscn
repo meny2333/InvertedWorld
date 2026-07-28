@@ -30,7 +30,7 @@
 [ext_resource type="Script" uid="uid://uujop4owrimi" path="res://[Scenes]/DefaultScene/cylinderTP.gd" id="28"]
 [ext_resource type="Texture2D" uid="uid://curwvb7adkv2v" path="res://Assets/TheInvertedWorld/Misc/Skybox/P3PreInvert.png" id="29"]
 [ext_resource type="AudioStream" uid="uid://b57frsdh1c3wj" path="res://Assets/TheInvertedWorld/TheInvertedWorld.mp3" id="29_5amtw"]
-[ext_resource type="PackedScene" uid="uid://b5hb8j8w782ki" path="res://#Template/trigger.tscn" id="30"]
+[ext_resource type="PackedScene" uid="uid://b5hb8j8w782ki" path="res://#Template/Trigger.tscn" id="30"]
 [ext_resource type="Script" uid="uid://ct52ojgblm2io" path="res://#Template/[Scripts]/Trigger/Teleport.gd" id="31"]
 [ext_resource type="Script" uid="uid://drnbjbioqg67t" path="res://#Template/[Scripts]/Trigger/Speed.gd" id="32"]
 [ext_resource type="Shader" uid="uid://bii0dsm4b5w6q" path="res://[Scenes]/DefaultScene/glitch.gdshader" id="33"]
@@ -6553,7 +6553,7 @@ visible = false
 visible = false
 
 [node name="River Water" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="142" unique_id=981780063]
-transform = Transform3D(1, 0, 0, 0, -1.1920923e-07, 0.99999946, 0, -0.99999946, -1.1920923e-07, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -1.1920919e-07, 0.9999991, 0, -0.9999991, -1.1920919e-07, 0, 0, 0)
 visible = false
 
 [node name="River Water(LD)" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="143" unique_id=626132252]
@@ -9001,7 +9001,7 @@ transform = Transform3D(0.5, -1.1933662e-07, 8.6832756e-08, -8.7182e-08, -0.0014
 
 [node name="IceObstacles" parent="Scene3" index="24" unique_id=231649061]
 script = ExtResource("21")
-name_filters = ["ice"]
+name_filters = Array[String](["ice"])
 
 [node name="Ice Obstacle_003" parent="Scene3/IceObstacles" index="0" unique_id=2138859123 node_paths=PackedStringArray("reference_animation_player")]
 visible = false
@@ -10914,7 +10914,7 @@ shape = SubResource("ConvexPolygonShape3D_bsbu0")
 [node name="IceObstacles2" type="Node3D" parent="Scene3" index="25" unique_id=2024185158]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
 script = ExtResource("21")
-name_filters = ["ice"]
+name_filters = Array[String](["ice"])
 
 [node name="Ice Obstacle_003" type="MeshInstance3D" parent="Scene3/IceObstacles2" index="0" unique_id=874424588 node_paths=PackedStringArray("reference_animation_player")]
 transform = Transform3D(6, 0, 0, 0, 0.0020706654, 1, 0, -5.9999995, 0.00034511092, 554, 0.49999768, -498)
@@ -14978,7 +14978,16 @@ tilt_angle_degrees = 45.0
 return_duration = 0.4
 
 [node name="Crown" parent="Scene3" index="62" unique_id=818489930 instance=ExtResource("11")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 602.42365, 0.19946289, -588.50366)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 602.42365, 0.19947052, -588.50366)
+AutoRecord = true
+GameTime = 73.97867
+PlayerSpeed = 18.0
+direction = 1
+camera_new = -9223371845443509031
+camera_old = -9223371845426731814
+fog = -9223371845409954597
+light = -9223371845393177380
+ambient = -9223371845376400163
 
 [node name="Crown" parent="Scene3/Crown" index="0" unique_id=1455513811 node_paths=PackedStringArray("reference_animation_player")]
 visible = false
