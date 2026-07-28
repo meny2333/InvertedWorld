@@ -24,6 +24,10 @@ config/icon="res://icon.png"
 
 buses/default_bus_layout="uid://bndjl13wvh5ef"
 
+[autoload]
+
+MCPRuntimeProbe="*uid://bsg12huaf1u5i"
+
 [debug]
 
 gdscript/warnings/enable=false
