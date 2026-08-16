@@ -5708,6 +5708,8 @@ gap = 0.3
 delay_between_bricks = 0.03
 available_brick_scenes = Array[PackedScene]([ExtResource("3"), ExtResource("4")])
 global_offset = Vector3(10, 0, -10)
+overall_move_offset = 30.0
+overall_move_duration = 5.0
 preprocess_enabled = true
 preprocess_time = 1.0
 
@@ -6553,7 +6555,7 @@ visible = false
 visible = false
 
 [node name="River Water" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="142" unique_id=981780063]
-transform = Transform3D(1, 0, 0, 0, -1.1920919e-07, 0.9999991, 0, -0.9999991, -1.1920919e-07, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -1.19209176e-07, 0.999999, 0, -0.999999, -1.19209176e-07, 0, 0, 0)
 visible = false
 
 [node name="River Water(LD)" parent="Scene1" parent_id_path=PackedInt32Array(1696350809) index="143" unique_id=626132252]

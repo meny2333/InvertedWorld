@@ -12,7 +12,7 @@ extends Node3D
 
 @export var cylinder_radius: float = 14.5
 @export var cylinder_center_offset: Vector3 = Vector3.ZERO
-@export var cylinder_axis_direction: Vector3 = Vector3(1, 0, -1)
+@export var cylinder_axis_direction: Vector3 = Vector3(-1, 0, 1)
 
 @export var available_brick_scenes: Array[PackedScene] = []
 
@@ -25,7 +25,6 @@ extends Node3D
 
 @export_group("Overall Backward Animation")
 @export var overall_move_offset: float = 10.0
-@export var overall_move_duration: float = 1.0
 
 
 @export_group("Preprocessing")
@@ -42,7 +41,6 @@ var last_spawn_time: float = 0.0
 var path_calculators: Array[PathFollow3D] = []
 var all_bricks: Array[Node3D] = []
 var brick_motion_root: Node3D
-var overall_move_tween: Tween
 
 
 var preprocess_completed: bool = false
@@ -83,49 +81,30 @@ func _process(delta):
 
 	if enable and not previous_enable:
 
-		play_overall_backward_animation()
-
 		if preprocess_enabled and not preprocess_completed:
 			preprocess_bricks()
 
 	previous_enable = enable
 
 	if enable:
+		update_overall_movement(delta)
 		last_spawn_time += delta
 		if last_spawn_time >= delay_between_bricks:
 			spawn_brick()
 			last_spawn_time = 0.0
 
-func play_overall_backward_animation() -> void:
+func update_overall_movement(delta: float) -> void:
 	if not is_instance_valid(brick_motion_root):
 		return
 
-	if overall_move_tween and overall_move_tween.is_valid():
-		overall_move_tween.kill()
-
 	var extension_direction: Vector3 = get_creation_extension_direction()
 	if extension_direction.is_zero_approx():
-		brick_motion_root.position = Vector3.ZERO
 		return
 
 	var local_direction: Vector3 = (
 		brick_parent.global_transform.basis.inverse() * extension_direction
 	).normalized()
-	brick_motion_root.position = local_direction * overall_move_offset
-
-	if overall_move_duration <= 0.0:
-		brick_motion_root.position = Vector3.ZERO
-		return
-
-	overall_move_tween = create_tween()
-	overall_move_tween.set_trans(Tween.TRANS_CUBIC)
-	overall_move_tween.set_ease(Tween.EASE_IN_OUT)
-	overall_move_tween.tween_property(
-		brick_motion_root,
-		"position",
-		Vector3.ZERO,
-		overall_move_duration
-	)
+	brick_motion_root.position += local_direction * overall_move_offset * delta
 
 func get_creation_extension_direction() -> Vector3:
 	for path: Path3D in path_3d_array:
